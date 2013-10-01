@@ -1,0 +1,42 @@
+OpenERP 7.0 Installation Document
+----------------------------------
+
+Build the server:
+sudo apt-get install openssh-server denyhosts
+sudo apt-get update
+sudo apt-get dist-upgrade
+
+Create OpenERP user:
+sudo adduser --system --home=/opt/openerp --group openerp
+sudo su - openerp -s /bin/bash
+exit
+
+Install and configure PostgreSQL:
+sudo apt-get install postgresql
+sudo su - postgres
+createuser --createdb --username postgres --pwprompt openerp
+exit
+
+Install Python libraries:
+sudo apt-get install python-dateutil python-docutils python-feedparser python-gdata \
+python-jinja2 python-ldap python-libxslt1 python-lxml python-mako python-mock python-openid \
+python-psycopg2 python-psutil python-pybabel python-pychart python-pydot python-pyparsing \
+python-reportlab python-simplejson python-tz python-unittest2 python-vatnumber python-vobject \
+python-webdav python-werkzeug python-xlwt python-yaml python-zsi
+
+Install OpenERP server:
+wget http://nightly.openerp.com/7.0/nightly/src/openerp-7.0-latest.tar.gz
+cd /opt/openerp
+sudo tar xvf ~/openerp-7.0-latest.tar.gz
+sudo chown -R openerp: *
+sudo cp -a openerp-7.0 server
+
+Create the openerp.conf file in /etc/ /etc/openerp-server.conf
+Create the service file in /etc/init.d /etc/init.d/openerp-server
+
+sudo mkdir /var/log/openerp
+sudo chown openerp:root /var/log/openerp/
+
+sudo chown openerp: /etc/openerp-server.conf
+sudo chmod 640 /etc/openerp-server.conf
+sudo chmod 755 /etc/init.d/openerp-server
